@@ -13,14 +13,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserServiceImpl {
+public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Override
     @Transactional
-    public List<String> addUser (UserDto userDto) {
+    public List<String> addUser(UserDto userDto) {
         List<String> response = new ArrayList<>();
         User user = new User(userDto);
         userRepository.saveAndFlush(user);
@@ -28,7 +29,8 @@ public class UserServiceImpl {
         return response;
     }
 
-    public List<String> userLogin (UserDto userDto) {
+    @Override
+    public List<String> userLogin(UserDto userDto) {
         List<String> response = new ArrayList<>();
         Optional<User> userOptional = userRepository.findByUsername(userDto.getUsername());
 
