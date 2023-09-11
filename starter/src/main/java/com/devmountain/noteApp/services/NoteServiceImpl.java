@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class NoteServiceImpl {
+public class NoteServiceImpl implements NoteService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -24,6 +24,7 @@ public class NoteServiceImpl {
 
 
     // Adding a note
+    @Override
     @Transactional
     public void addNote(NoteDto noteDto, Long userId) {
         Optional<User> userOptional = userRepository.findById(userId);
@@ -33,6 +34,7 @@ public class NoteServiceImpl {
     }
 
     // Deleting a note
+    @Override
     @Transactional
     public void deleteNoteById(Long noteId) {
         Optional<Note> noteOptional = noteRepository.findById(noteId);
@@ -40,6 +42,7 @@ public class NoteServiceImpl {
     }
 
     // Updating a note
+    @Override
     @Transactional
     public void updateNotebyId(NoteDto noteDto) {
         Optional<Note> noteOptional = noteRepository.findById(noteDto.getId());
@@ -50,6 +53,7 @@ public class NoteServiceImpl {
     }
 
     // Finding all notes by a user
+    @Override
     public List<NoteDto> getAllNotesByUserId(Long userId) {
         Optional<User> userOptional = userRepository.findById(userId);
         if (userOptional.isPresent()) {
@@ -60,7 +64,8 @@ public class NoteServiceImpl {
     }
 
     // Getting a Note by the Note id
-    public Optional<NoteDto> getNoteById (Long noteId) {
+    @Override
+    public Optional<NoteDto> getNoteById(Long noteId) {
         Optional<Note> noteOptional = noteRepository.findById(noteId);
         if (noteOptional.isPresent()) {
             return Optional.of(new NoteDto(noteOptional.get()));
